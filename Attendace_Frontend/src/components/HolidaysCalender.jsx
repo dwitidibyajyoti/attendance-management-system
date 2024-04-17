@@ -7,18 +7,17 @@ const HorlidaysCalendar = ({ data }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [leaveDays, setLeaveDays] = useState([]);
   const [popUpOpen, setPopupOpen] = useState(false);
-  const [showDetailsInput, setShowDetailsInput] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [details, setDetails] = useState('');
   const [dateSelected, setDateSelected] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessageHoliday, setErrorMessageHoliday] = useState('');
 
-  const refreshPage = () => {
-    window.location.reload();
-  };
-
   useEffect(() => {
+    fetchLeaveDays();
+  }, [leaveDays]);
+
+  const fetchLeaveDays = () => {
     fetch('http://localhost:5000/leave/')
       .then((response) => response.json())
       .then((data) => {
@@ -27,7 +26,7 @@ const HorlidaysCalendar = ({ data }) => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -62,14 +61,12 @@ const HorlidaysCalendar = ({ data }) => {
     })
       .then(() => {
         console.log('Leave day added successfully');
-        setShowDetailsInput(false);
         setDetails('');
         setSuccessMessage('Holiday set successfully');
         setTimeout(() => {
           setSuccessMessage('');
           setPopupOpen(false);
-          refreshPage();
-        }, 100);
+        }, 1000);
       })
       .catch((error) => {
         console.error(error);

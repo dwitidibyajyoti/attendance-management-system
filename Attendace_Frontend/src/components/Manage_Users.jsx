@@ -14,6 +14,10 @@ const Manage_Users = () => {
   const [showEditPopUp , setShowEditPopUp] = useState(false);
   const [showDeleteSuccessMessage, setShowDeleteSuccessMessage] = useState(false);
 
+  useEffect(()=>{
+    fetchData();
+  },[userData]);
+
   const fetchData = async () => {
     try {
       const token = Cookies.get('token')
@@ -107,7 +111,7 @@ const Manage_Users = () => {
       </div>
       <div className='absolute text-left items-center justify-center overflow-scroll overflow-x-hidden h-[92%] w-full bg-white'>
       <table className="border border-b-[.1rem] w-full items-center table-fixed">
-    <thead>
+    <thead className='sticky top-0 bg-white z-10'>
       <tr className="bg-slate-100 text-gray-700">
         <th className="py-2 opacity-60 text-center">Employee_ID</th>
         <th className="py-2 opacity-60">Username</th>
@@ -127,7 +131,7 @@ const Manage_Users = () => {
             <div className="relative">
               <FontAwesomeIcon icon={faEllipsisV} className="cursor-pointer w-3 " onClick={() => { handleTogglePopup(index) }}/>
               {popupIndex === index && (
-                <div className="absolute right-0 bottom-1 w-[5.6pc] bg-white border border-gray-200 rounded-md shadow-lg z-10 " ref={popupRef}>
+                <div className="absolute right-0 bottom-1 w-[5.6pc] bg-white border border-gray-200 rounded-md shadow-lg z-50" ref={popupRef}>
                   <button onClick={() => handleDeleteClick(user.userId)} className="block w-full text-center py-2 px-4 text-sm text-red-600 hover:bg-red-100 hover:text-red-800 focus:outline-none">Delete</button>
                   <button onClick={() => handleEditClick(user.userId)} className="block w-full text-center py-2 px-4 text-sm text-blue-600 hover:bg-blue-100 hover:text-blue-800 focus:outline-none">Edit</button>
                 </div>

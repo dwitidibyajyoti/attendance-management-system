@@ -22,7 +22,7 @@ function App() {
                 </Route>
                 <Route path='/' element={<Navigate to="/Login" />} />
                 <Route path='/login' element={<Login />}></Route>
-                <Route path='/list' element={<AttendanceList />}></Route>
+                <Route path='/attendance_list' element={<AttendanceList />}></Route>
             </Routes>
         </BrowserRouter>
     );

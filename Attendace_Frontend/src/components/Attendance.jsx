@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaSignInAlt } from 'react-icons/fa';
 import Cookies from 'js-cookie';
 import HorizontalCalendar from "./Calnder";
+import AttendanceList from "./AttendanceList";
 
 export default function Attendance() {
   const [submissionType, setSubmissionType] = useState('entry');
@@ -110,7 +111,7 @@ export default function Attendance() {
       <div className='flex flex-col items-center text-center justify-center font-serif'>
         <div className='flex flex-col items-center justify-center text-center'>
           <span onClick={() => setSubmissionType(submissionType === 'exit' ? 'entry' : 'exit')}>
-            <FaSignInAlt onClick={handleSubmission} className='size-[100px] mt-1 cursor-pointer' color={submissionType === 'entry' ? "green" : "red"} />
+            <FaSignInAlt onClick={handleSubmission} className='size-[100px] mt-5 cursor-pointer' color={submissionType === 'entry' ? "green" : "red"} />
           </span>
           <div>
             {submissionType === 'entry' ? <p className='text-purple-700 font-bold'>{submissionStatus}</p> : <p className='text-purple-700 font-bold'>{submissionStatus}</p>}
@@ -120,6 +121,7 @@ export default function Attendance() {
         <HorizontalCalendar />
       </div>
       </div>
+      <AttendanceList />
     </div>
   );
 }

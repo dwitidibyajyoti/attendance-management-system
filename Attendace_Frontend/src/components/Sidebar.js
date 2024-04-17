@@ -38,7 +38,7 @@ const Sidebar = () => {
         navigate('/login');
     }
     return (
-        <div className='h-screen w-72'>
+        <div className='h-screen w-1/5'>
             {showAdmin && (
                 <div className='bg-white h-screen justify-between relative'>
                         <h3 className='text-gray-700 font-bold ml-8 p-2 text-xl'>  {role === 'admin' ? 'Admin' : role === 'hr' ? 'Hr' : 'User'}</h3>
@@ -97,9 +97,9 @@ const Sidebar = () => {
                             <p className="flex justify-center items-center text-black font-serif h-full">{userName.split(' ')[0]}</p>
                         </div>
                         <div className='relative' ref={popupRef}>
-                            <p className="text-gray-600 font-bold text-3xl ml-24 mb-3 cursor-pointer" onClick={handlePopupToggle}>&#8230;</p>
+                            <p className="text-gray-600 font-bold text-3xl ml-20 mb-3 cursor-pointer" onClick={handlePopupToggle}>&#8230;</p>
                             {isPopupOpen && (
-                                <div className="absolute top-0 left-[4.5pc] mt-[-1.3pc] bg-white border border-gray-200 shadow-md rounded-xl p-1 hover:bg-red-600">
+                                <div className="absolute top-0 left-[4pc] mt-[-1.3pc] bg-white border border-gray-200 shadow-md rounded-xl p-1 hover:bg-red-600">
                                     <button onClick={handleLogout} className="text-red-600 rounded-xl hover:text-white">Logout</button>
                                 </div>
                             )}

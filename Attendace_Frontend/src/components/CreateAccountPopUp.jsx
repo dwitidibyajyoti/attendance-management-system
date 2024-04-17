@@ -99,7 +99,7 @@ const CreateAccountPopUp = ({setShowPopUp}) => {
         return emailRegex.test(email);
     };
     return (
-        <div className="flex items-center justify-center bg-gray-900 bg-opacity-50 fixed inset-0">
+        <div className="flex items-center justify-center bg-gray-900 bg-opacity-50 fixed inset-0 z-50">
           <div className="bg-slate-50 p-4 rounded-2xl border-2 h-fit w-[40%] relative ">
             <div>
               <span className="absolute left-8 text-2xl opacity-90 font-bold mb-2">Create Account</span>

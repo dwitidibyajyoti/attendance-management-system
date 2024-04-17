@@ -6,11 +6,12 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Holidays = () => {
   const [leaveDays, setLeaveDays] = useState([]);
-  
-  const refreshPage = () => {
-    window.location.reload();
-  };
+
   useEffect(() => {
+    fetchLeaveDays();
+  }, [leaveDays]);
+  
+  const fetchLeaveDays = () => {
     fetch('http://localhost:5000/leave/')
       .then((response) => response.json())
       .then((data) => {
@@ -19,7 +20,7 @@ const Holidays = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  };
 
   const handleLeaveDay = (date) => {
     console.log(date);
@@ -43,8 +44,7 @@ const Holidays = () => {
         .then(() => {
           setTimeout(() => {
             console.log('Leave day removed successfully');
-            refreshPage();
-          }, 1500);
+          }, 100);
         })
         .catch((error) => {
           console.error(error);
@@ -57,7 +57,7 @@ const Holidays = () => {
       <HorlidaysCalendar />
       <div className="w-full absolute mt-1 overflow-y-auto h-60">
         <table className="border border-b-[.1rem] w-full table-fixed">
-          <thead>
+          <thead className='sticky -top-1 bg-white z-10'>
             <tr className='bg-slate-100 text-gray-700'>
               <th className="py-1">Created by</th>
               <th className="py-1">Date</th>

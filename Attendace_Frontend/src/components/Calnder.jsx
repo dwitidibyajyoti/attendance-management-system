@@ -9,36 +9,37 @@ const HorizontalCalendar = ({ data }) => {
   const token = Cookies.get('token');
   const userID = Cookies.get('userId');
   const [dailyTimes, setDailyTimes] = useState(null);
+
   useEffect(() => {
     async function fetchAllData() {
-        try {
-            const response = await fetch(`http://localhost:5000/time/${userID}/dailyTime`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.json();
-            const dataArray = Object.values(data);
-
-            const dailyTimes = dataArray.map(item => ({
-                date: item.date,
-                totalTime: item.totalTime
-            }));
-
-            setDailyTimes(dailyTimes);
-        } catch (error) {
-            console.error('Error fetching data:', error);
+      try {
+        const response = await fetch(`http://localhost:5000/time/${userID}/dailyTime`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
         }
+        const data = await response.json();
+        const dataArray = Object.values(data);
+
+        const dailyTimes = dataArray.map(item => ({
+          date: item.date,
+          totalTime: item.totalTime
+        }));
+
+        setDailyTimes(dailyTimes);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     }
     if (userID) {
-        fetchAllData();
+      fetchAllData();
     }
-}, [userID, token]);
+  }, [userID, token]);
 
 
   useEffect(() => {
@@ -93,14 +94,13 @@ const HorizontalCalendar = ({ data }) => {
         const hours = Math.floor(totalMinutes / 60);
         const minutes = Math.floor(totalMinutes % 60);
         totalHours = `${hours}.${minutes}`;
-    }
+      }
 
       dates.push(
         <div
           key={displayedDate.toDateString()}
-          className={`m-1 cursor-pointer text-center text-lg w-10 ${
-            currentDate.toDateString() === displayedDate.toDateString() ? 'border-blue-500' : ''
-          }  ${isWeekend ? 'text-green-600' : isHoliday ? 'text-green-600' : 'text-blue-600'}`}
+          className={`m-1 cursor-pointer text-center text-lg w-10 ${currentDate.toDateString() === displayedDate.toDateString() ? 'border-blue-500' : ''
+            }  ${isWeekend ? 'text-green-600' : isHoliday ? 'text-red-600' : 'text-blue-600'}`}
         >
           {displayedDate.getDate() === 1 && (
             <div key={`${displayedDate.getMonth()}`} className="text-center font-bold text-red-600 text-sm mt-[-20px]">
@@ -109,31 +109,42 @@ const HorizontalCalendar = ({ data }) => {
           )}
           <div className="text-sm">{displayedDate.toLocaleDateString('en-US', { weekday: 'short' })}</div>
           <div className={`inline-block w-6 h-6 rounded-full ${currentDate.toDateString() === displayedDate.toDateString() ? 'bg-blue-500 text-white' : ''}`}>
-            <span className={isWeekend || isHoliday ? 'text-green-600' : 'text-black'}>
+            <span className={isHoliday ? 'text-red-600' : isWeekend ? 'text-green-600' : 'text-black'}>
               {displayedDate.toLocaleDateString('en-US', { day: 'numeric' })}
             </span>
           </div>
           {dailyTime && (
             <div className="text-[65%] mt-1">
               <span className={`font-bold ${totalHours < 3.5 ? 'text-red-500' : totalHours < 9 ? 'text-red-500' : 'text-black'}`}>
-                {totalHours < 3.5 ?  'A' : totalHours}
+                {totalHours < 3.5 ? 'A' : totalHours}
               </span>
             </div>
           )}
-          {isHoliday && (
+          {isHoliday && isWeekend ? (
             <div className="text-[65%] mt-1">
               <span className={`font-bold ${isHoliday ? 'text-red-600' : ''}`}>
-                {isHoliday ? 'H' : ''}
+                W&H
               </span>
             </div>
+          ) : (
+            <>
+              {isHoliday && (
+                <div className="text-[65%] mt-1">
+                  <span className={`font-bold ${isHoliday ? 'text-red-600' : ''}`}>
+                    {isHoliday ? 'H' : ''}
+                  </span>
+                </div>
+              )}
+              {isWeekend && (
+                <div className="text-[65%] mt-1">
+                  <span className={`font-bold ${isWeekend ? 'text-green-600' : ''}`}>
+                    {isWeekend ? 'W' : ''}
+                  </span>
+                </div>
+              )}
+            </>
           )}
-          {isWeekend && (
-            <div className="text-[65%] mt-1">
-              <span className={`font-bold ${isWeekend ? 'text-green-600' : ''}`}>
-                {isWeekend ? 'W' : ''}
-              </span>
-            </div>
-          )}
+
         </div>
       );
     }
